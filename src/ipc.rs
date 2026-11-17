@@ -2127,8 +2127,21 @@ pub async fn clear_wayland_screencast_restore_token(key: String) -> ResultType<b
     feature = "flutter",
     not(any(target_os = "android", target_os = "ios"))
 ))]
+pub fn update_controlling_session_count(count: usize) -> ResultType<()> {
+    std::thread::spawn(move || {
+        if let Err(err) = update_controlling_session_count_worker(count) {
+            log::warn!("Unable to report controlling session count: {err}");
+        }
+    });
+    Ok(())
+}
+
+#[cfg(all(
+    feature = "flutter",
+    not(any(target_os = "android", target_os = "ios"))
+))]
 #[tokio::main(flavor = "current_thread")]
-pub async fn update_controlling_session_count(count: usize) -> ResultType<()> {
+async fn update_controlling_session_count_worker(count: usize) -> ResultType<()> {
     let mut c = connect(1000, "").await?;
     c.send(&Data::ControllingSessionCount(count)).await?;
     Ok(())
