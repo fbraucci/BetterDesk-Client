@@ -1057,9 +1057,42 @@ class _DesktopHomePageState extends State<DesktopHomePage>
     });
     _uniLinksSubscription = listenUniLinks();
 
-    if (bind.isIncomingOnly()) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _updateWindowSize();
+        if (bind.isIncomingOnly()) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        if (!mounted) return;
+
+        // Configurazione automatica del nostro Support Agent.
+        // Non modifica i client personalizzati.
+        if (!bind.isCustomClient()) {
+          try {
+            await bind.mainSetOption(
+              key: 'custom-rendezvous-server',
+              value: 'fbraucci.mooo.com:21316',
+            );
+            await bind.mainSetOption(
+              key: 'relay-server',
+              value: 'fbraucci.mooo.com:21317',
+            );
+            await bind.mainSetOption(
+              key: 'api-server',
+              value: 'https://fbraucci.mooo.com',
+            );
+            await bind.mainSetOption(
+              key: 'key',
+              value: 'LixZd0jCMzQUgYz1PMBUbQAgCpidgQYkoX7oHehwHEA=',
+            );
+
+            if (mounted) setState(() {});
+          } catch (error) {
+            if (mounted) {
+              setState(() {
+                _genericSetupMessage = error.toString();
+              });
+            }
+          }
+        }
+
+        if (mounted) _updateWindowSize();
       });
     }
     WidgetsBinding.instance.addObserver(this);
