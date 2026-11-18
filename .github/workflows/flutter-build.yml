@@ -361,7 +361,6 @@ jobs:
         # is x64 / ARM64; the produced Package.msi is globbed since its bin/<platform>/ dir varies.
         if: env.UPLOAD_ARTIFACT == 'true'
         run: |
-                  run: |
           pushd ./res/msi
           $appName = if ('${{ inputs.generic-support }}' -eq 'true') { 'BetterDesk Support Agent' } else { 'BetterDesk Client' }
           $connType = if ('${{ inputs.generic-support }}' -eq 'true') { 'incoming' } else { '' }
