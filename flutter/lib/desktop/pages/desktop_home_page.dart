@@ -1063,7 +1063,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
 
         // Configurazione automatica del nostro Support Agent.
         // Non modifica i client personalizzati.
-        if (!bind.isCustomClient()) {
+        if (bind.mainGetOptionSync(key: 'api-server').trim().isEmpty) {
           try {
             await bind.mainSetOption(
               key: 'custom-rendezvous-server',
