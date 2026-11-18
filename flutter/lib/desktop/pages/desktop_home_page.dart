@@ -1067,11 +1067,11 @@ class _DesktopHomePageState extends State<DesktopHomePage>
           try {
             await bind.mainSetOption(
               key: 'custom-rendezvous-server',
-              value: 'fbraucci.mooo.com:21316',
+              value: 'fbraucci.mooo.com:21116',
             );
             await bind.mainSetOption(
               key: 'relay-server',
-              value: 'fbraucci.mooo.com:21317',
+              value: 'fbraucci.mooo.com:21117',
             );
             await bind.mainSetOption(
               key: 'api-server',
