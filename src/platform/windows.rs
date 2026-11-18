@@ -3983,15 +3983,15 @@ if exist \"%PROGRAMDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\{ap
     } else {
         let exe = escape_nested_cmd_ampersands(exe);
         format!("
-sc query {app_name} >nul 2>&1
+sc query \"{app_name}\" >nul 2>&1
 if errorlevel 1 (
-    sc create {app_name} binpath= \"\\\"{exe}\\\" --service\" start= auto DisplayName= \"{app_name} Service\"
+    sc create \"{app_name}\" binpath= \"\\\"{exe}\\\" --service\" start= auto DisplayName= \"{app_name} Service\"
 ) else (
-    sc config {app_name} binpath= \"\\\"{exe}\\\" --service\" start= auto
+    sc config \"{app_name}\" binpath= \"\\\"{exe}\\\" --service\" start= auto
 )
-sc failure {app_name} reset= 86400 actions= restart/5000/restart/10000/restart/30000
-sc failureflag {app_name} 1
-sc start {app_name}
+sc failure \"{app_name}\" reset= 86400 actions= restart/5000/restart/10000/restart/30000
+sc failureflag \"{app_name}\" 1
+sc start \"{app_name}\"
 ",
     app_name = crate::get_app_name())
     }
